@@ -1,20 +1,23 @@
-from ElementoMenu import CrearMenu
-import customtkinter as ctk
-from tkinter import ttk, Toplevel, Label, messagebox
-from Ingrediente import Ingrediente
-from Stock import Stock
-import re
-from PIL import Image
-from CTkMessagebox import CTkMessagebox
-from Pedido import Pedido
-from BoletaFacade import BoletaFacade
-import pandas as pd
+#Generar .exe para puntos extra
+
+from ElementoMenu import CrearMenu #Recursos (Codigo)
+import customtkinter as ctk #interfaz
+from tkinter import ttk, Toplevel, Label, messagebox #interfaz
+from Ingrediente import Ingrediente #Recursos (Codigo)
+from Stock import Stock #Recursos (Codigo)
+import re #?
+from PIL import Image #?
+from CTkMessagebox import CTkMessagebox #?
+from Pedido import Pedido #Recursos (Codigo)
+from BoletaFacade import BoletaFacade #Recursos (Codigo)
+import pandas as pd #Pandas, Elaboracion de Matrices
 from tkinter import filedialog
-from Menu_catalog import get_default_menus
-from menu_pdf import create_menu_pdf
-from ctk_pdf_viewer import CTkPDFViewer
-import os
-from tkinter.font import nametofont
+from Menu_catalog import get_default_menus #Recursos (Codigo)
+from menu_pdf import create_menu_pdf #Recursos (PDF)
+from ctk_pdf_viewer import CTkPDFViewer #Leer PDF
+import os #Sistema Operativo
+from tkinter.font import nametofont #?
+
 class AplicacionConPestanas(ctk.CTk):
     def __init__(self):
         super().__init__()
@@ -105,7 +108,8 @@ class AplicacionConPestanas(ctk.CTk):
         CTkMessagebox(title="Stock Actualizado", message="Ingredientes agregados al stock correctamente.", icon="info")
         self.actualizar_treeview()   
 
-    def cargar_csv(self):
+    def cargar_csv(self): #got you now bastart
+        
         pass
         
     def mostrar_dataframe_en_tabla(self, df):
