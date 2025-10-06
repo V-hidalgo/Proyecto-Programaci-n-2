@@ -18,6 +18,15 @@ from ctk_pdf_viewer import CTkPDFViewer #Leer PDF
 import os #Sistema Operativo
 from tkinter.font import nametofont #?
 
+
+HEADER_STYLE = {"fg_color": "#EE6BC8", "font": ("Arial", 12, "bold"), "corner_radius": 5}
+EVEN_ROW_STYLE = {"fg_color": "#46925C", "font": ("Arial", 11), "corner_radius": 3}
+ODD_ROW_STYLE = {"fg_color": "#116B2A", "font": ("Arial", 11), "corner_radius": 3}
+GRAY_CELL = {"fg_color": "#666666", "font": ("Arial", 11), "corner_radius": 3}
+BLACK_CELL = {"fg_color": "#000000", "font": ("Arial", 11), "corner_radius": 3}
+CELL_SIZE = {"width": 130, "height": 30}
+
+
 class AplicacionConPestanas(ctk.CTk):
     def __init__(self):
         super().__init__()
@@ -108,10 +117,40 @@ class AplicacionConPestanas(ctk.CTk):
         CTkMessagebox(title="Stock Actualizado", message="Ingredientes agregados al stock correctamente.", icon="info")
         self.actualizar_treeview()   
 
-    def cargar_csv(self): #got you now bastart
+    def cargar_csv(self): #got you now bastard, este es el comando para cargar el "ingredientes_menu.csv"
+                          #se puede uttilizar pandas para ello
+
+        df = pd.read_csv('ingredientes_menu.csv')
         
-        pass
+        # Limpiar la tabla antes de cargar nuevos datos
+        for widget in self.frame_tabla_csv.winfo_children():
+            widget.destroy()
         
+        # Crear columnas
+        for col, header in enumerate(df.columns):
+            ctk.CTkLabel(
+                master=self.frame_tabla_csv,
+                text=header,
+                **HEADER_STYLE,
+                **CELL_SIZE
+            ).grid(row=0, column=col, padx=2, pady=2, sticky="nsew")
+        
+        # Crear fila de datos
+        for row in range(len(df)):
+            for col in range(len(df.columns)):
+                estilo = EVEN_ROW_STYLE if row % 2 == 0 else ODD_ROW_STYLE
+                valor = str(df.iloc[row, col])
+                
+                ctk.CTkLabel(
+                    master=self.frame_tabla_csv,
+                    text=valor,
+                    **estilo,
+                    **CELL_SIZE
+                ).grid(row=row+1, column=col, padx=2, pady=2, sticky="nsew")
+
+        
+
+
     def mostrar_dataframe_en_tabla(self, df):
         if self.tabla_csv:
             self.tabla_csv.destroy()
@@ -205,6 +244,7 @@ class AplicacionConPestanas(ctk.CTk):
         label_nombre.pack(pady=5)
         self.entry_nombre = ctk.CTkEntry(frame_formulario)
         self.entry_nombre.pack(pady=5)
+
 
         label_cantidad = ctk.CTkLabel(frame_formulario, text="Unidad:")
         label_cantidad.pack(pady=5)
