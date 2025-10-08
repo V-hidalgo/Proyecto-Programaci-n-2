@@ -32,7 +32,7 @@ class AplicacionConPestanas(ctk.CTk):
         super().__init__()
         
         self.title("Gestión de ingredientes y pedidos")
-        self.geometry("870x700")
+        self.geometry("1000x950")
         nametofont("TkHeadingFont").configure(size=14)
         nametofont("TkDefaultFont").configure(size=11)
 
@@ -88,18 +88,27 @@ class AplicacionConPestanas(ctk.CTk):
     def configurar_pestana3(self):
         label = ctk.CTkLabel(self.tab3, text="Carga de archivo CSV")
         label.pack(pady=20)
-        boton_cargar_csv = ctk.CTkButton(self.tab3, text="Cargar CSV", fg_color="#1976D2", text_color="white",command=self.cargar_csv)
-
+        boton_cargar_csv = ctk.CTkButton(self.tab3, text="Cargar CSV", fg_color="#1976D2", text_color="white", command=self.cargar_csv)
         boton_cargar_csv.pack(pady=10)
-
-        self.frame_tabla_csv = ctk.CTkFrame(self.tab3)
-        self.frame_tabla_csv.pack(fill="both", expand=True, padx=10, pady=10)
+    
+    # Crear dos frames separados: uno para la tabla y otro para el botón
+        self.frame_contenedor = ctk.CTkFrame(self.tab3)
+        self.frame_contenedor.pack(expand=True, fill="both", padx=10, pady=10)
+    
+        self.frame_tabla_csv = ctk.CTkFrame(self.frame_contenedor)
+        self.frame_tabla_csv.pack(expand=True, padx=10, pady=(0, 10))
+    
+        self.frame_boton = ctk.CTkFrame(self.frame_contenedor)
+        self.frame_boton.pack(fill="x", padx=10, pady=10)
+    
+        self.boton_agregar_stock = ctk.CTkButton(self.frame_boton, text="Agregar al Stock", command=self.agregar_csv_al_stock)
+        self.boton_agregar_stock.pack(pady=10)
+    
         self.df_csv = None   
         self.tabla_csv = None
 
-        self.boton_agregar_stock = ctk.CTkButton(self.frame_tabla_csv, text="Agregar al Stock")
-        self.boton_agregar_stock.pack(side="bottom", pady=10)
- 
+
+
     def agregar_csv_al_stock(self):
         if self.df_csv is None:
             CTkMessagebox(title="Error", message="Primero debes cargar un archivo CSV.", icon="warning")
@@ -117,18 +126,17 @@ class AplicacionConPestanas(ctk.CTk):
         CTkMessagebox(title="Stock Actualizado", message="Ingredientes agregados al stock correctamente.", icon="info")
         self.actualizar_treeview()   
 
-    def cargar_csv(self): #got you now bastard, este es el comando para cargar el "ingredientes_menu.csv"
-                          #se puede uttilizar pandas para ello
-
-        df = pd.read_csv('ingredientes_menu.csv')
+    def cargar_csv(self):
+        try:
+            df = pd.read_csv('ingredientes_menu.csv')
         
-        # Limpiar la tabla antes de cargar nuevos datos
-        for widget in self.frame_tabla_csv.winfo_children():
-            widget.destroy()
+        # Limpiar solo el frame de la tabla, no el del botón
+            for widget in self.frame_tabla_csv.winfo_children():
+                widget.destroy()
         
         # Crear columnas
-        for col, header in enumerate(df.columns):
-            ctk.CTkLabel(
+            for col, header in enumerate(df.columns):
+                    ctk.CTkLabel(
                 master=self.frame_tabla_csv,
                 text=header,
                 **HEADER_STYLE,
@@ -136,19 +144,23 @@ class AplicacionConPestanas(ctk.CTk):
             ).grid(row=0, column=col, padx=2, pady=2, sticky="nsew")
         
         # Crear fila de datos
-        for row in range(len(df)):
-            for col in range(len(df.columns)):
-                estilo = EVEN_ROW_STYLE if row % 2 == 0 else ODD_ROW_STYLE
-                valor = str(df.iloc[row, col])
+            for row in range(len(df)):
+                for col in range(len(df.columns)):
+                    estilo = EVEN_ROW_STYLE if row % 2 == 0 else ODD_ROW_STYLE
+                    valor = str(df.iloc[row, col])
                 
-                ctk.CTkLabel(
+                    ctk.CTkLabel(
                     master=self.frame_tabla_csv,
                     text=valor,
                     **estilo,
                     **CELL_SIZE
                 ).grid(row=row+1, column=col, padx=2, pady=2, sticky="nsew")
 
+        # Guardar el DataFrame para uso posterior
+            self.df_csv = df
         
+        except Exception as e:
+            CTkMessagebox(title="Error", message=f"No se pudo cargar el CSV: {e}", icon="warning")
 
 
     def mostrar_dataframe_en_tabla(self, df):
