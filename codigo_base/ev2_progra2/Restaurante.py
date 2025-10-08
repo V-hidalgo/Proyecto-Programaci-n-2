@@ -1,5 +1,5 @@
 #Generar .exe para puntos extra
-
+#XD
 from ElementoMenu import CrearMenu #Recursos (Codigo)
 import customtkinter as ctk #interfaz
 from tkinter import ttk, Toplevel, Label, messagebox #interfaz
