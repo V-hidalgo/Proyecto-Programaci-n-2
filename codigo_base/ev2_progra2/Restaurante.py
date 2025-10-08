@@ -19,14 +19,6 @@ import os #Sistema Operativo
 from tkinter.font import nametofont #?
 
 
-HEADER_STYLE = {"fg_color": "#EE6BC8", "font": ("Arial", 12, "bold"), "corner_radius": 5}
-EVEN_ROW_STYLE = {"fg_color": "#46925C", "font": ("Arial", 11), "corner_radius": 3}
-ODD_ROW_STYLE = {"fg_color": "#116B2A", "font": ("Arial", 11), "corner_radius": 3}
-GRAY_CELL = {"fg_color": "#666666", "font": ("Arial", 11), "corner_radius": 3}
-BLACK_CELL = {"fg_color": "#000000", "font": ("Arial", 11), "corner_radius": 3}
-CELL_SIZE = {"width": 130, "height": 30}
-
-
 class AplicacionConPestanas(ctk.CTk):
     def __init__(self):
         super().__init__()
@@ -48,14 +40,17 @@ class AplicacionConPestanas(ctk.CTk):
 
         self.crear_pestanas()
 
-    def actualizar_treeview(self):
+
+        #update_treeview
+
+    def actualizar_treeview(self): #Reload
 
         for item in self.tree.get_children():
             self.tree.delete(item)
 
-
         for ingrediente in self.stock.lista_ingredientes:
-            self.tree.insert("", "end", values=(ingrediente.nombre,ingrediente.unidad, ingrediente.cantidad))    
+            self.tree.insert("", "end", values=(ingrediente.nombre, ingrediente.unidad, ingrediente.cantidad))
+
 
     def on_tab_change(self):
         selected_tab = self.tabview.get()
@@ -90,23 +85,22 @@ class AplicacionConPestanas(ctk.CTk):
         label.pack(pady=20)
         boton_cargar_csv = ctk.CTkButton(self.tab3, text="Cargar CSV", fg_color="#1976D2", text_color="white", command=self.cargar_csv)
         boton_cargar_csv.pack(pady=10)
-    
+
     # Crear dos frames separados: uno para la tabla y otro para el botón
         self.frame_contenedor = ctk.CTkFrame(self.tab3)
         self.frame_contenedor.pack(expand=True, fill="both", padx=10, pady=10)
-    
+
         self.frame_tabla_csv = ctk.CTkFrame(self.frame_contenedor)
-        self.frame_tabla_csv.pack(expand=True, padx=10, pady=(0, 10))
-    
+        self.frame_tabla_csv.pack(expand=True, fill="both", padx=10, pady=(0, 10))
+
         self.frame_boton = ctk.CTkFrame(self.frame_contenedor)
         self.frame_boton.pack(fill="x", padx=10, pady=10)
-    
+
         self.boton_agregar_stock = ctk.CTkButton(self.frame_boton, text="Agregar al Stock", command=self.agregar_csv_al_stock)
         self.boton_agregar_stock.pack(pady=10)
-    
+
         self.df_csv = None   
         self.tabla_csv = None
-
 
 
     def agregar_csv_al_stock(self):
@@ -117,14 +111,18 @@ class AplicacionConPestanas(ctk.CTk):
         if 'nombre' not in self.df_csv.columns or 'cantidad' not in self.df_csv.columns:
             CTkMessagebox(title="Error", message="El CSV debe tener columnas 'nombre' y 'cantidad'.", icon="warning")
             return
+        
         for _, row in self.df_csv.iterrows():
             nombre = str(row['nombre'])
-            cantidad = str(row['cantidad'])
+            cantidad = float(row['cantidad'])
             unidad = str(row['unidad'])
             ingrediente = Ingrediente(nombre=nombre,unidad=unidad,cantidad=cantidad)
             self.stock.agregar_ingrediente(ingrediente)
+          
         CTkMessagebox(title="Stock Actualizado", message="Ingredientes agregados al stock correctamente.", icon="info")
-        self.actualizar_treeview()   
+        self.actualizar_treeview()
+
+
 
     def cargar_csv(self):
         try:
@@ -134,40 +132,40 @@ class AplicacionConPestanas(ctk.CTk):
             for widget in self.frame_tabla_csv.winfo_children():
                 widget.destroy()
         
-        # Crear columnas
-            for col, header in enumerate(df.columns):
-                    ctk.CTkLabel(
-                master=self.frame_tabla_csv,
-                text=header,
-                **HEADER_STYLE,
-                **CELL_SIZE
-            ).grid(row=0, column=col, padx=2, pady=2, sticky="nsew")
+        # Crear Treeview para mostrar el CSV
+            self.tabla_csv = ttk.Treeview(self.frame_tabla_csv, columns=list(df.columns), show="headings", height=15)
         
-        # Crear fila de datos
-            for row in range(len(df)):
-                for col in range(len(df.columns)):
-                    estilo = EVEN_ROW_STYLE if row % 2 == 0 else ODD_ROW_STYLE
-                    valor = str(df.iloc[row, col])
-                
-                    ctk.CTkLabel(
-                    master=self.frame_tabla_csv,
-                    text=valor,
-                    **estilo,
-                    **CELL_SIZE
-                ).grid(row=row+1, column=col, padx=2, pady=2, sticky="nsew")
+        # Configurar las columnas
+            for col in df.columns:
+                self.tabla_csv.heading(col, text=col)
+                self.tabla_csv.column(col, width=120, anchor="center")
+        
+        # Agregar los datos
+            for _, row in df.iterrows():
+                self.tabla_csv.insert("", "end", values=list(row))
+        
+        # Agregar scrollbar
+            scrollbar = ttk.Scrollbar(self.frame_tabla_csv, orient="vertical", command=self.tabla_csv.yview)
+            self.tabla_csv.configure(yscrollcommand=scrollbar.set)
+        
+        # Empaquetar
+            self.tabla_csv.pack(side="left", expand=True, fill="both", padx=(0, 5))
+            scrollbar.pack(side="right", fill="y", padx=(5, 0))
 
         # Guardar el DataFrame para uso posterior
             self.df_csv = df
         
+            print(f"CSV cargado: {len(df)} filas")
+        
         except Exception as e:
             CTkMessagebox(title="Error", message=f"No se pudo cargar el CSV: {e}", icon="warning")
-
+            print(f"Error al cargar CSV: {e}")
 
     def mostrar_dataframe_en_tabla(self, df):
         if self.tabla_csv:
             self.tabla_csv.destroy()
 
-        self.tabla_csv = ttk.Treeview(self.frame_tabla_csv, columns=list(df.columns), show="headings")
+        self.tabla_csv = ttk.Treeview(self.frame_tabla_csv, columns=list(df.columns), show="headings") #cvs
         for col in df.columns:
             self.tabla_csv.heading(col, text=col)
             self.tabla_csv.column(col, width=100, anchor="center")
@@ -243,7 +241,7 @@ class AplicacionConPestanas(ctk.CTk):
     def mostrar_boleta(self):
         pass
 
-    def configurar_pestana1(self):
+    def configurar_pestana1(self): #PESTAÑA STOCK
         # Dividir la Pestaña 1 en dos frames
         frame_formulario = ctk.CTkFrame(self.tab1)
         frame_formulario.pack(side="left", fill="both", expand=True, padx=10, pady=10)
@@ -417,8 +415,7 @@ class AplicacionConPestanas(ctk.CTk):
     def eliminar_ingrediente(self):
         pass
 
-    def actualizar_treeview(self):
-        pass
+
 
 
 if __name__ == "__main__":
