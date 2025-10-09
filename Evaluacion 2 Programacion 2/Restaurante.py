@@ -353,6 +353,9 @@ class AplicacionConPestanas(ctk.CTk):
         self.boton_generar_boleta=ctk.CTkButton(frame_inferior,text="Generar Boleta",command=self.generar_boleta)
         self.boton_generar_boleta.pack(side="bottom",pady=10)
 
+        for menu in self.menus:
+            self.crear_tarjeta(menu)
+
     def crear_tarjeta(self, menu):
         num_tarjetas = len(self.menus_creados)
         fila = 0
@@ -410,10 +413,37 @@ class AplicacionConPestanas(ctk.CTk):
             return False
 
     def ingresar_ingrediente(self):
-        pass
+        nombre = self.entry_nombre.get().strip()
+        unidad = self.combo_unidad.get().strip()
+        cantidad = self.entry_cantidad.get().strip()
+
+        if not self.validar_nombre(nombre):
+            return
+        if not self.validar_cantidad(cantidad):
+            return
+
+        ingrediente = Ingrediente(nombre=nombre, unidad=unidad, cantidad=float(cantidad))
+        self.stock.agregar_ingrediente(ingrediente)
+        CTkMessagebox(title="Ingrediente ingresado", message=f"Ingrediente '{nombre}' agregado al stock.", icon="info")
+        self.actualizar_treeview()
 
     def eliminar_ingrediente(self):
-        pass
+        selected = self.tree.selection()
+        if not selected:
+            CTkMessagebox(title="Error", message="Selecciona un ingrediente para eliminar.", icon="warning")
+            return
+        item = selected[0]
+        nombre = self.tree.item(item, "values")[0]
+        self.stock.eliminar_ingrediente(nombre)
+        CTkMessagebox(title="Ingrediente eliminado", message=f"Ingrediente '{nombre}' eliminado del stock.", icon="info")
+        self.actualizar_treeview()
+
+    def actualizar_treeview(self):
+        for item in self.tree.get_children():
+            self.tree.delete(item)
+        for ingrediente in self.stock.lista_ingredientes:
+            self.tree.insert("", "end", values=(ingrediente.nombre, ingrediente.unidad, ingrediente.cantidad))
+        
 
 
 
