@@ -23,7 +23,7 @@ class AplicacionConPestanas(ctk.CTk):
     def __init__(self):
         super().__init__()
         
-        self.title("Gestión de ingredientes y pedidos")
+        self.title("Gestión de ingredientes y pedidos (DigitalFood)")
         self.geometry("1000x950")
         nametofont("TkHeadingFont").configure(size=14)
         nametofont("TkDefaultFont").configure(size=11)
@@ -202,7 +202,7 @@ class AplicacionConPestanas(ctk.CTk):
         try:
             pdf_path = "carta.pdf"
             create_menu_pdf(self.menus, pdf_path,
-                titulo_negocio="Restaurante",
+                titulo_negocio="DigitalFood",
                 subtitulo="Carta Primavera 2025",
                 moneda="$")
             
