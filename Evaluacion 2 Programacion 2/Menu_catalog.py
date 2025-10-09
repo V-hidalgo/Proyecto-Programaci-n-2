@@ -54,30 +54,31 @@ def get_default_menus() -> List[IMenu]:
         CrearMenu(
             "Panqueques",
             [
-                Ingrediente("Masa", "unid", 1)
+                Ingrediente("Panqueque", "unid", 3),
+                Ingrediente("Manjar", "kg", 1)
             ],
             precio=2000,
-            #icono_path
+            icono_path="IMG/icono_panqueques_con_manjar_64x64.png"
         ),
         CrearMenu(
             "Pollo Frito",
             [
                 Ingrediente("Presa de pollo", "kg", 1),
-                Ingrediente("Porción de harina", "kg", 1),
-                Ingrediente("Porción de aceite", "unid", 1),
+                Ingrediente("Porcion de harina", "kg", 1),
+                Ingrediente("Porcion de aceite", "unid", 1),
             ],
             precio=2800,
-            #icono_path
+            icono_path="IMG/icono_pollo_frito_64x64.png"
         ),
         CrearMenu(
             "Ensalada mixta",
             [
-                Ingrediente("Lechuga", "unid", 1),
+                Ingrediente("Lechuga", "kg", 1),
                 Ingrediente("Tomate", "kg", 1),
                 Ingrediente("Zanahoria rallada", "kg", 1)
             ],
             precio=1500,
-            #icono_path    
+            icono_path="IMG/icono_ensalada_mixta_64x64.png"   
         ),
         CrearMenu(
             "Empanada de Queso",
@@ -101,3 +102,4 @@ def get_default_menus() -> List[IMenu]:
     ]
 
 #print(get_default_menus())
+
