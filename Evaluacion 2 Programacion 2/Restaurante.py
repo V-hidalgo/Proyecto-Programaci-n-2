@@ -19,14 +19,6 @@ import os #Sistema Operativo
 from tkinter.font import nametofont #?
 
 
-HEADER_STYLE = {"fg_color": "#EE6BC8", "font": ("Arial", 12, "bold"), "corner_radius": 5}
-EVEN_ROW_STYLE = {"fg_color": "#46925C", "font": ("Arial", 11), "corner_radius": 3}
-ODD_ROW_STYLE = {"fg_color": "#116B2A", "font": ("Arial", 11), "corner_radius": 3}
-GRAY_CELL = {"fg_color": "#666666", "font": ("Arial", 11), "corner_radius": 3}
-BLACK_CELL = {"fg_color": "#000000", "font": ("Arial", 11), "corner_radius": 3}
-CELL_SIZE = {"width": 130, "height": 30}
-
-
 class AplicacionConPestanas(ctk.CTk):
     def __init__(self):
         super().__init__()
