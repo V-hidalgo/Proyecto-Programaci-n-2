@@ -17,87 +17,102 @@ def get_default_menus() -> List[IMenu]:
             precio=1800,
             icono_path="IMG/icono_hotdog_sin_texto_64x64.png",
         ),
+    
         CrearMenu(
-            "Papas Fritas",
-            [
-                Ingrediente("Papas", "kg", 5)
-            ],
-            precio=500,
-            icono_path="IMG/icono_papas_fritas_64x64.png",
+                nombre="Papas Fritas",
+                ingredientes=[Ingrediente("Papas", "kg", 5)],
+                precio=500,
+                icono_path="IMG/icono_papas_fritas_64x64.png"
         ),
         CrearMenu(
-            "Pepsi",
-            [
-                Ingrediente("Pepsi", "unid", 1)
-            ],
-            precio=1100,
-            icono_path="IMG/icono_cola_64x64.png"
+                nombre="Pepsi",
+                ingredientes=[Ingrediente("Pepsi", "unid", 1)],
+                precio=1100,
+                icono_path="IMG/icono_cola_64x64.png"
         ),
         CrearMenu(
-            "Coca-Cola",
-            [
-                Ingrediente("Coca cola", "unid", 1)
-            ],
-            precio=1100,
-            icono_path="Img/icono_cola_lata_64x64.png"
-            ),
-        CrearMenu(
-            "Hamburguesa",
-            [
-                Ingrediente("Pan de Hamburguesa", "unid", 1),
-                Ingrediente("Lamina de queso", "unid", 1),
-                Ingrediente("Churrasco de carne", "unid", 1),
-            ],
-            precio=3500,
-            icono_path="IMG/icono_hamburguesa_negra_64x64.png"
+                nombre="Coca-Cola",
+                ingredientes=[Ingrediente("Coca cola", "unid", 1)],
+                precio=1100,
+                icono_path="IMG/icono_cola_lata_64x64.png"
         ),
         CrearMenu(
-            "Panqueques",
-            [
-                Ingrediente("Masa", "unid", 1)
-            ],
-            precio=2000,
-            #icono_path
+                nombre="Hamburguesa",
+                ingredientes=[
+                    Ingrediente("Pan de Hamburguesa", "unid", 1),
+                    Ingrediente("Lamina de queso", "unid", 1),
+                    Ingrediente("Churrasco de carne", "unid", 1)
+                ],
+                precio=3500,
+                icono_path="IMG/icono_hamburguesa_negra_64x64.png"
         ),
         CrearMenu(
-            "Pollo Frito",
-            [
-                Ingrediente("Presa de pollo", "kg", 1),
-                Ingrediente("Porción de harina", "kg", 1),
-                Ingrediente("Porción de aceite", "unid", 1),
-            ],
-            precio=2800,
-            #icono_path
+                nombre="Panqueques",
+                ingredientes=[Ingrediente("Masa", "unid", 1)],
+                precio=2000
+                
         ),
         CrearMenu(
-            "Ensalada mixta",
-            [
-                Ingrediente("Lechuga", "unid", 1),
-                Ingrediente("Tomate", "kg", 1),
-                Ingrediente("Zanahoria rallada", "kg", 1)
-            ],
-            precio=1500,
-            #icono_path    
+                nombre="Pollo Frito",
+                ingredientes=[
+                    Ingrediente("Presa de pollo", "kg", 1),
+                    Ingrediente("Porcion de harina", "kg", 1),
+                    Ingrediente("Porcion de aceite", "unid", 1)
+                ],
+                precio=2800
+                
         ),
         CrearMenu(
-            "Empanada de Queso",
-            [
-                Ingrediente("Masa de empanada", "unid", 1),
-                Ingrediente("Queso", "kg", 1)    
-            ],
-            precio=1000,
-            icono_path="IMG/icono_empanada_queso_64x64.png"
+                nombre="Ensalada mixta",
+                ingredientes=[
+                    Ingrediente("Lechuga", "unid", 1),
+                    Ingrediente("Tomate", "kg", 1),
+                    Ingrediente("Zanahoria rallada", "kg", 1)
+                ],
+                precio=1500
+                
         ),
         CrearMenu(
-            "Chorrillana",
-            [
-                Ingrediente("Papas", "kg", 5),
-                Ingrediente("Vienesa", "kg", 3),
-                Ingrediente("Huevos", "kg", 2)
-            ],
-            precio=3000,
-            icono_path="IMG/icono_chorrillana_64x64.png"
+                nombre="Empanada de Queso",
+                ingredientes=[
+                    Ingrediente("Masa de empanada", "unid", 1),
+                    Ingrediente("Queso", "kg", 1)
+                ],
+                precio=1000,
+                icono_path="IMG/icono_empanada_queso_64x64.png"
         ),
-    ]
+        CrearMenu(
+                nombre="Chorrillana",
+                ingredientes=[
+                    Ingrediente("Papas", "kg", 5),
+                    Ingrediente("Vienesa", "kg", 3),
+                    Ingrediente("Huevos", "kg", 2)
+                ],
+                precio=3000,
+                icono_path="IMG/icono_chorrillana_64x64.png"
+        ),
+        CrearMenu(
+                nombre="Panqueques con Manjar",
+                ingredientes=[
+                    Ingrediente("Masa", "unid", 1),
+                    Ingrediente("Panqueque", "unid", 3),
+                    Ingrediente("Manjar", "kg", 1)
+                ],
+                precio=2000,
+                icono_path="IMG/icono_panqueques_con_manjar_64x64.jpeg"
+        ),
+        CrearMenu(
+                nombre="Pollo Frito",
+                ingredientes=[
+                    Ingrediente("Presa de pollo", "kg", 1),
+                    Ingrediente("Porcion de harina", "kg", 1),
+                    Ingrediente("Porcion de aceite", "unid", 1)
+                ],
+                precio=2800,
+                icono_path="IMG/icono_pollo_frito_64x64.png"
+        )
+        
+            
 
-#print(get_default_menus())
+]
+

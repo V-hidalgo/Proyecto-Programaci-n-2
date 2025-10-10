@@ -6,12 +6,6 @@ from IMenu import IMenu
 
 @dataclass
 class CrearMenu(IMenu):
-    nombre: str
-    ingredientes: List[Ingrediente]
-    precio: float = 0.0
-    icono_path: Optional[str] = None
-    cantidad: int = field(default=0, compare=False)
-
     def esta_disponible(self, stock: Stock) -> bool:
         for req in self.ingredientes:
             ok = False
