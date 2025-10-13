@@ -59,8 +59,8 @@ def get_default_menus() -> List[IMenu]:
                     Ingrediente("Porcion de harina", "kg", 1),
                     Ingrediente("Porcion de aceite", "unid", 1)
                 ],
-                precio=2800
-                
+                precio=2800,
+                icono_path="IMG/icono_pollo_frito_64x64.png"
         ),
         CrearMenu(
                 nombre="Ensalada mixta",
@@ -69,7 +69,8 @@ def get_default_menus() -> List[IMenu]:
                     Ingrediente("Tomate", "kg", 1),
                     Ingrediente("Zanahoria rallada", "kg", 1)
                 ],
-                precio=1500
+                precio=1500,
+                icono_path="IMG/icono_ensalada_mixta_64x64.jpeg"
                 
         ),
         CrearMenu(
